@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->unsignedInteger('price');
             $table->string('image');
-            $table->foreignIdFor(User::class);
+           
             $table->timestamps();
         });
     }
