@@ -28,7 +28,7 @@
         </div>
         <div class="flex flex-col gap-2 mb-3 text-sm">
             <label for="" class="text-slate-600">Description</label>
-            <textarea type="text" name="description" class="border rounded border-slate-500 p-2 h-[100px]">{{ $product->description }}</textarea>
+            <textarea type="text" name="description" value="{{ old('discription') }}" class="border rounded border-slate-500 p-2 h-[100px]"></textarea>
             @error('description')
                 <small class="text-red-400">{{ $message }}</small>
             @enderror 
