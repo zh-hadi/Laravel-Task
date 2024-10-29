@@ -17,7 +17,10 @@ class VendorFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'company_name' => fake()->company(),
+            'address' => fake()->address,
+            'logo' => fake()->imageUrl(),
+            
         ];
     }
 }
