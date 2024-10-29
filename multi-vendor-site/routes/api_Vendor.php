@@ -13,9 +13,9 @@ Route::apiResource('vendor', VendorController::class)
 Route::prefix('vendor')->group(function(){
      Route::apiResource('products', ProductController::class)
         ->except('index')
-        ->middleware(['auth:sanctum']);
+        ->middleware(['auth:sanctum', 'vendor']);
     Route::post('/products/index', [ProductController::class, 'index'])
-        ->middleware(['auth:sanctum']);
+        ->middleware(['auth:sanctum', 'vendor']);
 });
 
 
