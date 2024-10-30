@@ -3,20 +3,27 @@
 namespace App\Http\Controllers\Api\V1\Vendor;
 
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vendor\ProductRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        return response()->json([
-            'products' => Product::all()
-        ]);
+        $products = Product::where('vendor_id', Auth::user()->vendor->id)->get();
+
+   
+        return ProductResource::collection($products);
+
+        // return response()->json([
+        //     'products' => $products
+        // ]);
     }
 
 
@@ -45,14 +52,18 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return response()->json([
-            'products' => $product
-        ]);
+        Gate::authorize('view', $product);
+
+        return new ProductResource($product);
+        // return response()->json([
+        //     'products' => $product
+        // ]);
     }
 
 
     public function update(ProductRequest $request, Product $product): JsonResponse
     {
+        Gate::authorize('update', $product);
         unset($request['_method']);
 
         if(request()->image){
@@ -82,6 +93,8 @@ class ProductController extends Controller
 
     public function destroy(Product $product): JsonResponse
     {
+        Gate::authorize('delete', $product);
+
         $imagePath = public_path("storage/".$product->image);
         if(file_exists($imagePath)){
             unlink($imagePath);
