@@ -18,3 +18,4 @@ Route::get('admin', [AdminController::class, 'index'])->middleware(['auth:sanctu
 
 require __DIR__."/apiauth.php";
 require __DIR__."/api_Vendor.php";
+require __DIR__."/api_admin.php";
