@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 class AdminVendorController extends Controller
 {
     public function vendor_list(){
+
         $vendors = DB::table('vendors')
                         ->join('products','products.vendor_id','=','vendors.id')
                         ->select('vendors.*',DB::raw('count(products.vendor_id) as total_product'))
@@ -23,12 +24,11 @@ class AdminVendorController extends Controller
             $msg = ['error'=>'No Vendor Found'];
             return response()->json($msg);
         }
-        
     }
 
     public function active_vendor_list(){
+        
         $vendors = Vendor::where('status','active')->get();
-        //$vendors = Vendor::all();
         if($vendors){
             return response()->json($vendors);
         }
