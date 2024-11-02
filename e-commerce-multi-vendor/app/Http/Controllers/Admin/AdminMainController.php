@@ -17,12 +17,6 @@ class AdminMainController extends Controller
         return view('admin.setting');
     }
 
-    
-    public function manage_user()
-    {
-        return view('admin.user.manage');
-    }
-
     public function manage_vendor()
     {
         return view('admin.vendor.manage');

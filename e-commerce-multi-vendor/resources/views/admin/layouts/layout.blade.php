@@ -14,9 +14,14 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>Blank Page | AdminKit Demo</title>
+	<title>@yield('title') | Admin</title>
 
 	<link href="{{ asset('admin_asset/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('admin_asset/css/admin-style.css') }}" rel="stylesheet">
+	
+	<!-- @vite('resources/css/app.css') -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -342,7 +347,7 @@
 			<main class="content">
 				<div class="container-fluid p-0">
 
-					<h1 class="h3 mb-3">Blank Page</h1>
+					<h1 class="h3 mb-3">@yield('title')</h1>
 
 					<div class="row">
 						<div class="col-12">
@@ -385,6 +390,7 @@
 	</div>
 
 	<script src="{{ asset('admin_asset/js/app.js') }}"></script>
+	<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 </body>
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminMainController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountController;
 use App\Http\Controllers\Admin\ProductAttributesController;
@@ -30,11 +31,15 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function(){
         Route::controller(AdminMainController::class)->group(function(){
             Route::get('/dashboard', 'index')->name('admin');
             Route::get('/settings', 'setting')->name('admin.setting');
-            Route::get('/manage/user', 'manage_user')->name('admin.manage.user');
+            // Route::get('/manage/user', 'manage_user')->name('admin.manage.user');
             Route::get('/manage/store', 'manage_stores')->name('admin.manage.store');
             Route::get('/manage/vendor', 'manage_vendor')->name('admin.manage.vendor');
             Route::get('/history/cart', 'cart_history')->name('admin.history.cart');
             Route::get('/history/order', 'order_history')->name('admin.history.order');
+        });
+
+        Route::controller(AdminUserController::class)->group(function(){
+            Route::get('/manage/user', 'manage_user')->name('admin.manage.user');
         });
 
         Route::controller(CategoryController::class)->group(function(){
