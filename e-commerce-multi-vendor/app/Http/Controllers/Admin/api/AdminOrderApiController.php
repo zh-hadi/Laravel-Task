@@ -35,7 +35,7 @@ class AdminOrderApiController extends Controller
         
         $vendor_id = DB::table('products')
                         ->where('id', $request->product_id)
-                        ->pluck('vendor_id')->first();
+                        ->pluck('user_id')->first();
         //return Auth::user()->id;
         $order_invoice_attributes = [
             'phone'=> $request->phone,
