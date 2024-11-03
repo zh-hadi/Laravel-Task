@@ -12,6 +12,7 @@ use App\Http\Controllers\Vendor\VendorMainController;
 use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Vendor\VendorProductController;
 use App\Http\Controllers\Vendor\VendorStoreController;
+use Filament\Facades\Filament;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -41,6 +42,8 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function(){
         Route::controller(AdminUserController::class)->group(function(){
             Route::get('/manage/user', 'manage_user')->name('admin.manage.user');
         });
+
+        //Filament::routes();
 
         Route::controller(CategoryController::class)->group(function(){
             Route::get('/category/create', 'create')->name('admin.category.create');
