@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OrderInvoice extends Model
+class SaleLedger extends Model
 {
     use HasFactory;
-    protected $table = 'order_invoice';
+
+    protected $fillable = ['vendor_id','sale_amount'];
 }

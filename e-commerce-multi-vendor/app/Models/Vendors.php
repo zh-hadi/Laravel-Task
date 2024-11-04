@@ -10,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Vendors extends Model
 {
     use HasFactory;
+    protected $table = 'vendors';
+
     protected $fillable = [
         'company_name',
         'address',
