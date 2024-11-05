@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\api\AdminOrderApiController;
 use App\Http\Controllers\Admin\api\AdminProductApiController;
 use App\Http\Controllers\Admin\api\AdminVendorApiController;
 use Illuminate\Http\Request;
@@ -11,10 +12,11 @@ Route::get('/user', function (Request $request) {
 
 //Route::get('admin', [AdminController::class, 'index'])->middleware(['auth:sanctum','admin']);
 
-Route::apiResource('order', AdminVendorApiController::class);
+
 
 Route::prefix('admin')->group(function(){
     Route::get('vendors', [AdminVendorApiController::class, 'vendor_list']);//->middleware(['auth:sanctum','admin']);
     Route::get('vendors/active', [AdminVendorApiController::class, 'active_vendor_list']);
     Route::get('products', [AdminProductApiController::class, 'products']);
+    Route::get('orders', [AdminOrderApiController::class, 'index']);
 });

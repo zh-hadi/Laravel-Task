@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\DB;
 class AdminProductApiController extends Controller
 {
     public function products(){
-        $products = DB::table('orders')
-                        ->join('products','products.id','=','orders.product_id')
+        $products = DB::table('products')
+                        ->join('orders','products.id','=','orders.product_id')
                         ->select('products.*',DB::raw('count(orders.id) as sale_count'))
-                        ->groupBy('orders.id')
+                        ->groupBy('products.id')
                         ->get();
 
         if($products){

@@ -16,7 +16,19 @@ class AdminOrderApiController extends Controller
      */
     public function index()
     {
-        //
+        //$orders = Order::all();
+        $orders = DB::table('orders')
+                        ->join('order_invoice','orders.order_invoice_id','=','order_invoice.id')
+                        ->select('orders.*','order_invoice.*')
+                        ->get();
+
+        if($orders){
+            return response()->json($orders);
+        }
+        else{
+            $msg = ['error'=>'No Vendor Found'];
+            return response()->json($msg);
+        }
     }
 
     /**
