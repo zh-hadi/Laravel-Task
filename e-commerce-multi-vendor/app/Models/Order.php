@@ -9,5 +9,6 @@ class Order extends Model
 {
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
+    protected $table = 'orders';
     protected $fillable = ['total_amount','status'];
 }

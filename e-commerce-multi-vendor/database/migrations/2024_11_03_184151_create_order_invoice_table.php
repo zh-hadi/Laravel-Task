@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('address');
             $table->string('phone');
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Vendors::class);
+            $table->foreignId('vendor_id')->constrained('vendors');
             $table->string('status')->default('pending');
             $table->timestamps();
         });

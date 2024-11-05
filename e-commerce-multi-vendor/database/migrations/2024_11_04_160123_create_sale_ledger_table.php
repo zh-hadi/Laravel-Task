@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('sale_ledger', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Vendors::class);
+            $table->foreignId('vendor_id')->constrained('vendors');
             $table->unsignedInteger('sale_amount');
             $table->timestamps();
         });

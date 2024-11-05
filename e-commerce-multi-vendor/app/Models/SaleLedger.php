@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SaleLedger extends Model
 {
     use HasFactory;
-
+    protected $table = 'sale_ledger';
     protected $fillable = ['vendor_id','sale_amount'];
 }

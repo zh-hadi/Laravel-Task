@@ -12,6 +12,7 @@ use App\Models\Order;
 use App\Models\OrderInvoice;
 use App\Models\PaymentLedger;
 use App\Models\SaleLedger;
+use App\Models\Vendors;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -53,7 +54,7 @@ class DatabaseSeeder extends Seeder
         }
 
         // create customer and cart
-        $customers = User::factory(500)->create(['role' => 2]);
+        $customers = User::factory(50)->create(['role' => 2]);
 
         foreach($customers as $customer){
             Cart::factory()->create([
@@ -90,7 +91,18 @@ class DatabaseSeeder extends Seeder
             'complete',
         );
 
-        for($i = 0; $i<100; $i++){
+        foreach($vendors as $vendor){
+            Vendors::factory()->create([
+                'company_name' => fake()->name(),
+                'address' => fake()->address(),
+                'logo' => fake()->imageUrl(),
+                'status' => 'pending',
+                'user_id' => $vendor->id
+            ]);
+            
+        };
+
+        for($i = 0; $i<50; $i++){
             OrderInvoice::factory()->create([
                 'phone'=> fake()->phoneNumber(),
                 'address'=> fake()->address(),
@@ -122,16 +134,15 @@ class DatabaseSeeder extends Seeder
         }
 
         foreach($orders as $order){
-            SaleLedger::factory()->create([
-                'order_id' => $order->id,     
-                'verndor_id' => $vendors[rand(0, $total_vendors)]->id,
+            SaleLedger::factory()->create([  
+                'vendor_id' => $vendors[rand(0, $total_vendors)]->id,
                 'sale_amount' => fake()->numberBetween(1,5000)
             ]);
         }
 
         foreach($orders as $order){
             PaymentLedger::factory()->create([   
-                'verndor_id' => $vendors[rand(0, $total_vendors)]->id,
+                'vendor_id' => $vendors[rand(0, $total_vendors)]->id,
                 'payment_amount' => fake()->numberBetween(1,5000)
             ]);
         }
