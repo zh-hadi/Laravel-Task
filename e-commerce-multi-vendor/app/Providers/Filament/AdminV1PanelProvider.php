@@ -55,4 +55,6 @@ class AdminV1PanelProvider extends PanelProvider
                 Authenticate::class,
             ]);
     }
+
+    
 }
