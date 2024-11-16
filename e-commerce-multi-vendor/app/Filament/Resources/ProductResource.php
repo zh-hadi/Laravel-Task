@@ -10,6 +10,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,7 +44,7 @@ class ProductResource extends Resource
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('description')->searchable(),
                 TextColumn::make('category_id')->searchable(),
-                TextColumn::make('image')->searchable(),
+                ImageColumn::make('image'),
                 TextColumn::make('price')->searchable(),
                 TextColumn::make('quantity')->searchable(),
                 TextColumn::make('user_id')->searchable(),

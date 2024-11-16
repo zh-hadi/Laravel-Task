@@ -18,7 +18,8 @@ class OrdersResource extends Resource
 {
     protected static ?string $model = Order::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static ?string $navigationGroup = 'Order';
 
     public static function form(Form $form): Form
     {
@@ -63,6 +64,7 @@ class OrdersResource extends Resource
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrders::route('/create'),
             'edit' => Pages\EditOrders::route('/{record}/edit'),
+            'info' => Pages\OrderInfo::route('/info')
         ];
     }
 }
