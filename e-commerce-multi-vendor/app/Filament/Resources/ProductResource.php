@@ -31,6 +31,8 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('category_id')->required(),
                 Forms\Components\FileUpload::make('image') ->image() ->required(),
                 Forms\Components\TextInput::make('price')->required(),
+                Forms\Components\TextInput::make('brand')->required(),
+                Forms\Components\TextInput::make('discount_price')->required(),
                 Forms\Components\TextInput::make('quantity')->required(),
                 Forms\Components\TextInput::make('user_id')->required(),
             ]);
@@ -42,10 +44,14 @@ class ProductResource extends Resource
             ->columns([
                 TextColumn::make('id')->searchable(),
                 TextColumn::make('name')->searchable(),
-                TextColumn::make('description')->searchable(),
+                TextColumn::make('description')->extraAttributes([
+                    'style'=>'max-width:200px;white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
+                ])->searchable(),
                 TextColumn::make('category_id')->searchable(),
                 ImageColumn::make('image'),
                 TextColumn::make('price')->searchable(),
+                TextColumn::make('brand')->searchable(),
+                TextColumn::make('discount_price')->searchable(),
                 TextColumn::make('quantity')->searchable(),
                 TextColumn::make('user_id')->searchable(),
                 TextColumn::make('created_at')->searchable(),

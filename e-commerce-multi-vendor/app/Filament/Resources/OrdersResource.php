@@ -25,8 +25,9 @@ class OrdersResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('total_amount')->required(),
-                Forms\Components\TextInput::make('status')->required(),
+                Forms\Components\TextInput::make('user_id')->required(),
+                Forms\Components\TextInput::make('product_id')->required(),
+                Forms\Components\TextInput::make('vendor_id')->required(),
             ]);
     }
 
@@ -35,8 +36,8 @@ class OrdersResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('id')->searchable(),
-                TextColumn::make('total_amount')->searchable(),
-                TextColumn::make('status')->searchable(),
+                TextColumn::make('user_id')->searchable(),
+                TextColumn::make('vendor_id')->searchable(),
             ])
             ->filters([
                 //

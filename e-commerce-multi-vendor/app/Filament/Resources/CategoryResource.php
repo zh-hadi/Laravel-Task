@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +26,8 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')->required(),
+                Forms\Components\TextInput::make('name'),
+                Forms\Components\FileUpload::make('image')->image(),
             ]);
     }
 
@@ -35,6 +37,7 @@ class CategoryResource extends Resource
             ->columns([
                 TextColumn::make('id')->searchable(),
                 TextColumn::make('name')->searchable(),
+                ImageColumn::make('image'),
                 TextColumn::make('created_at')->searchable(),
                 TextColumn::make('updated_at')->searchable(),
             ])
