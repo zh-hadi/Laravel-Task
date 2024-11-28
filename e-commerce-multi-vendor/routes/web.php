@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProductAttributesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\General\ShopController;
 use App\Http\Controllers\Vendor\VendorMainController;
 use App\Http\Controllers\Vendor\VendorOrderController;
 use App\Http\Controllers\Vendor\VendorProductController;
@@ -102,6 +103,7 @@ Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function(){
 
 
 Route::middleware('auth')->group(function () {
+    Route::get('/shop', [ShopController::class,'shop_view'])->name('shop');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -44,6 +45,7 @@ class VendorsResource extends Resource
                 ImageColumn::make('logo')->label('Logo'),
                 TextColumn::make('status')->label('Status')->sortable()->searchable(),
                 TextColumn::make('user_id')->label('User ID')->sortable()->searchable(),
+                // TextColumn::make('user_id')->url(fn (User $record): string => route('users.edit', ['user' => $record]))->openUrlInNewTab()->label('User ID')->sortable()->searchable(),
                 TextColumn::make('created_at')->label('Created At')->date(),
             ])
             ->filters([
@@ -51,7 +53,8 @@ class VendorsResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
+                
+            ], position: ActionsPosition::BeforeColumns)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
