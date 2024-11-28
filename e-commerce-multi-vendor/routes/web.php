@@ -103,7 +103,9 @@ Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function(){
 
 
 Route::middleware('auth')->group(function () {
+    
     Route::get('/shop', [ShopController::class,'shop_view'])->name('shop');
+    Route::post('/shop', [ShopController::class,'shop_q'])->name('shop');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
