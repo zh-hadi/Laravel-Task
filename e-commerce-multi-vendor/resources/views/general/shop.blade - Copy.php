@@ -9,6 +9,7 @@
         flex: 1;
         padding: 15px;
     }
+
     .cd-cart__details{
         padding-top:0 !important;
     }
@@ -70,8 +71,8 @@
                     <div class="card-body">
                         <h5 class="card-title">{{$product->name}}</h5>
                         <p class="card-text">BDT {{$product->price}}</p>
-                        <p class="card-text">Category: {{$product->c_name}}</p>
-                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id={{$product->id}}>Add to Cart</a>
+                        <p class="card-title">Category: {{$product->c_name}}</p>
+                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id="{{$product->id}}">Add to Cart</a>
                     </div>
                 </div>
             </div>

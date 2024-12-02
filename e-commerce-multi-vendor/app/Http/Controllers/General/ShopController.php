@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
 {
@@ -23,16 +24,29 @@ class ShopController extends Controller
         if($category_ids){
             $category_id_arr = explode(",",$category_ids);
             if(count($category_id_arr)>1){
-                $products = Product::whereIn('category_id',$category_id_arr)->paginate(15);
+                $products = DB::table('products')
+                        ->join('categories','products.category_id','=','categories.id')
+                        ->select('categories.name as c_name','products.name as p_name','products.*')
+                        ->whereIn('products.category_id',$category_id_arr)
+                        ->paginate(15);
             }
             else{
                 $category_id_arr =[$category_ids];
-                $products = Product::where('category_id',$category_ids)->paginate(15);
+                $products = DB::table('products')
+                        ->join('categories','products.category_id','=','categories.id')
+                        ->select('categories.name as c_name','products.name as p_name','products.*')
+                        ->where('products.category_id',$category_ids)
+                        ->paginate(15);
+                //$products = Product::where('category_id',$category_ids)->paginate(15);
             }
         }
         else{
             $category_id_arr =[];
-            $products = Product::paginate(15);
+            $products = DB::table('products')
+                        ->join('categories','products.category_id','=','categories.id')
+                        ->select('categories.name as c_name','products.name as p_name','products.*')
+                        ->paginate(15);
+
         }
 
         return view('general.shop',compact('categories','products','category_id_arr'));
