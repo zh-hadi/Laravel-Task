@@ -104,20 +104,25 @@
 			let name = target.getAttribute('data-name');
 			let pimage = target.getAttribute('data-pimage');
 			let productId = target.getAttribute('data-id');
-			var productAdded = '<li class="cd-cart__product"><div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate"><a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			let userid = target.getAttribute('data-userid');
+			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate"><a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
 			cartList.insertAdjacentHTML('beforeend', productAdded);
-
-			fetch("http://localhost:8000/api/shop/cart-save", {
-				method: "POST",
+			const csrfToken = target.getAttribute('data-csrf');
+			fetch('http://localhost:8000/api/shop/cartsave', {
+				method: 'POST',
 				body: JSON.stringify({
 				  product_id: productId,
-				  title: "Fix my bugs",
-				  completed: false
+				  user_id: userid,
+				  quantity : 1
 				}),
 				headers: {
-				  "Content-type": "application/json; charset=UTF-8"
-				}
-			});
+				  'Content-type': 'application/json; charset=UTF-8',
+				  'X-CSRF-TOKEN': csrfToken
+				},
+			  })
+			.then((response) => response.json())
+			.then((json) => console.log(json));
+			
 		};
 
 		function removeProduct(product) {
@@ -141,6 +146,21 @@
 				Util.removeClass(cartUndo, 'cd-cart__undo--visible');
 				removePreviousProduct();
 			}, 8000);
+			let productId = product.getAttribute('data-productid');
+			let userid = product.getAttribute('data-userid');
+			fetch('http://localhost:8000/api/shop/cartdelete', {
+				method: 'POST',
+				body: JSON.stringify({
+					user_id: userid,
+				  	product_id: productId,
+				}),
+				headers: {
+				  'Content-type': 'application/json; charset=UTF-8',
+				//   'X-CSRF-TOKEN': csrfToken
+				},
+			  })
+			.then((response) => response.json())
+			.then((json) => console.log(json));
 		};
 
 		function removePreviousProduct() { // definitively removed a product from the cart (undo not possible anymore)

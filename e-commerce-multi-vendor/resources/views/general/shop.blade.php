@@ -71,7 +71,8 @@
                         <h5 class="card-title">{{$product->name}}</h5>
                         <p class="card-text">BDT {{$product->price}}</p>
                         <p class="card-text">Category: {{$product->c_name}}</p>
-                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id='{{$product->id}}' data-userid='{{$user->id}}'>Add to Cart</a>
+                        @csrf
+                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id='{{$product->id}}' data-userid='{{$user_id}}' data-csrf='{{csrf_token()}}'>Add to Cart</a>
                     </div>
                 </div>
             </div>

@@ -9,4 +9,6 @@ class CartItem extends Model
 {
     /** @use HasFactory<\Database\Factories\CartItemFactory> */
     use HasFactory;
+    protected $table = 'cart_items';
+    protected $fillable = ['cart_id','product_id','quantity'];
 }

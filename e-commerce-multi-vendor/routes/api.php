@@ -23,7 +23,9 @@ Route::prefix('admin')->group(function(){
 });
 
 Route::prefix('shop')->group(function(){
-    Route::post('cart-save', [ShopApiController::class, 'cart_save']);
+    Route::post('cartsave', [ShopApiController::class, 'cart_save']);
+    Route::post('cartupdate', [ShopApiController::class, 'cart_update']);
+    Route::post('cartdelete', [ShopApiController::class, 'cart_delete']);
 });
 
 

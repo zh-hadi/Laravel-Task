@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ShopController extends Controller
@@ -17,7 +18,8 @@ class ShopController extends Controller
                         ->join('categories','products.category_id','=','categories.id')
                         ->select('categories.name as c_name','products.name as p_name','products.*')
                         ->paginate(15);
-        return view('general.shop',compact('categories','products','category_id_arr'));
+        $user_id = Auth::user()->id;
+        return view('general.shop',compact('categories','products','category_id_arr','user_id'));
     }
 
     public function shop_q(Request $request){
@@ -51,8 +53,8 @@ class ShopController extends Controller
                         ->paginate(15);
 
         }
-
-        return view('general.shop',compact('categories','products','category_id_arr'));
+        $user_id = Auth::user()->id;
+        return view('general.shop',compact('categories','products','category_id_arr','user_id'));
     }
 
     
