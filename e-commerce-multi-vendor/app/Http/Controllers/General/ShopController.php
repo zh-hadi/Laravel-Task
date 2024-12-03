@@ -12,8 +12,11 @@ class ShopController extends Controller
 {
     public function shop_view(){
         $categories = Category::all();
-        $products = Product::paginate(15);
         $category_id_arr =[];
+        $products = DB::table('products')
+                        ->join('categories','products.category_id','=','categories.id')
+                        ->select('categories.name as c_name','products.name as p_name','products.*')
+                        ->paginate(15);
         return view('general.shop',compact('categories','products','category_id_arr'));
     }
 
@@ -51,4 +54,6 @@ class ShopController extends Controller
 
         return view('general.shop',compact('categories','products','category_id_arr'));
     }
+
+    
 }
