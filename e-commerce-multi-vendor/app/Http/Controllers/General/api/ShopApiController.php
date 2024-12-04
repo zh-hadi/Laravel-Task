@@ -4,6 +4,7 @@ namespace App\Http\Controllers\General\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Shop\CartDeleteRequest;
+use App\Http\Requests\Shop\CartInfoRequest;
 use App\Http\Requests\Shop\CartSaveRequest;
 use App\Http\Requests\Shop\CartUpdateRequest;
 use App\Models\Cart;
@@ -45,9 +46,12 @@ class ShopApiController extends Controller
 
     public function cart_update(CartUpdateRequest $request){
         $cart = Cart::where('user_id',$request->user_id)->get();
-        $cart_item = CartItem::where('cart_id',$cart[0]->id)->get();
-        $cart_item->quantity = $request->input('quantity'); 
-        $cart_item->save();
+
+        CartItem::where('cart_id',$cart[0]->id)
+                ->where('product_id',$request->product_id)
+                ->update([ 
+                    'quantity' => $request->quantity
+        ]);
         $msg = ['msg'=>'Cart Item Updated'];
         return response()->json($msg);
     }
@@ -59,5 +63,20 @@ class ShopApiController extends Controller
         $cart_item->delete();
         $msg = ['msg'=>'Cart Item Deleted'];
         return response()->json($msg);
+    }
+
+    public function cart_info(CartInfoRequest $request){
+        $cart = Cart::where('user_id',$request->user_id)->get();
+        $cart_item = CartItem::where('cart_id',$cart[0]->id)->get();
+        $cart_arr = array();
+        foreach($cart_item as $item){
+            $cart_temp_arr = array();
+            array_push($cart_temp_arr, $cart[0]->id);
+            array_push($cart_temp_arr, $request->user_id);
+            array_push($cart_temp_arr, $item->product_id);
+            array_push($cart_temp_arr, $item->quantity);
+            array_push($cart_arr,$cart_temp_arr);
+        }
+        return $cart_arr;
     }
 }

@@ -26,6 +26,7 @@ Route::prefix('shop')->group(function(){
     Route::post('cartsave', [ShopApiController::class, 'cart_save']);
     Route::post('cartupdate', [ShopApiController::class, 'cart_update']);
     Route::post('cartdelete', [ShopApiController::class, 'cart_delete']);
+    Route::get('cartinfo', [ShopApiController::class, 'cart_info']);
 });
 
 

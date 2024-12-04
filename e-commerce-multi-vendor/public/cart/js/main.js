@@ -1,7 +1,8 @@
 (function(){
-  // Add to Cart Interaction - by CodyHouse.co
+  // Add to Cart Interaction 
+
   var cart = document.getElementsByClassName('js-cd-cart');
-  if(cart.length > 0) {
+  //if(cart.length > 0) {
   	var cartAddBtns = document.getElementsByClassName('js-cd-add-to-cart'),
   		cartBody = cart[0].getElementsByClassName('cd-cart__body')[0],
   		cartList = cartBody.getElementsByTagName('ul')[0],
@@ -14,7 +15,16 @@
   		cartTimeoutId = false,
   		animatingQuantity = false;
 		initCartEvents();
-
+		if(animatingQuantity) return;
+		var cartIsEmpty = Util.hasClass(cart[0], 'cd-cart--empty');
+		//show cart
+		Util.removeClass(cart[0], 'cd-cart--empty');
+		addProductManual("500","New Product 01","2001","1");
+		//update number of items 
+		updateCartCount(cartIsEmpty);
+		//update total price
+		updateCartTotal("500", true);
+		
 
 		function initCartEvents() {
 			// add products to cart
@@ -39,7 +49,27 @@
 
 			// update product quantity inside cart
 			cart[0].addEventListener('change', function(event) {
-				if(event.target.tagName.toLowerCase() == 'select') quickUpdateCart();
+				if(event.target.tagName.toLowerCase() == 'select') {
+					quickUpdateCart();
+					let productId = event.target.getAttribute('data-productid');
+					let userid = event.target.getAttribute('data-userid');
+					let quantity = event.target.value;
+					fetch('http://localhost:8000/api/shop/cartupdate', {
+						method: 'POST',
+						body: JSON.stringify({
+							user_id: userid,
+							product_id: productId,
+							quantity : quantity
+						}),
+						headers: {
+						  'Content-type': 'application/json; charset=UTF-8',
+						//   'X-CSRF-TOKEN': csrfToken
+						},
+					  })
+					.then((response) => response.json())
+					.then((json) => console.log(json));
+					
+				}
 			});
 
 			//reinsert product deleted from the cart
@@ -95,17 +125,35 @@
 			}
 		};
 
+		function addProductManual(price,name,productId,userid) {
+			// this is just a product placeholder
+			// you should insert an item with the selected product info
+			// replace productId, productName, price and url with your real product info
+			// you should also check if the product was already in the cart -> if it is, just update the quantity
+			// let price = target.getAttribute('data-price');
+			// let name = target.getAttribute('data-name');
+			// let pimage = target.getAttribute('data-pimage');
+			// let productId = target.getAttribute('data-id');
+			// let userid = target.getAttribute('data-userid');
+			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			cartList.insertAdjacentHTML('beforeend', productAdded);
+			//const csrfToken = target.getAttribute('data-csrf');
+			
+			
+		};
+
 		function addProduct(target) {
 			// this is just a product placeholder
 			// you should insert an item with the selected product info
 			// replace productId, productName, price and url with your real product info
 			// you should also check if the product was already in the cart -> if it is, just update the quantity
+			//<div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div>
 			let price = target.getAttribute('data-price');
 			let name = target.getAttribute('data-name');
 			let pimage = target.getAttribute('data-pimage');
 			let productId = target.getAttribute('data-id');
 			let userid = target.getAttribute('data-userid');
-			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate"><a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
 			cartList.insertAdjacentHTML('beforeend', productAdded);
 			const csrfToken = target.getAttribute('data-csrf');
 			fetch('http://localhost:8000/api/shop/cartsave', {
@@ -215,6 +263,7 @@
 				if( !Util.hasClass(cartListItems[i], 'cd-cart__product--deleted') ) {
 					var singleQuantity = Number(cartListItems[i].getElementsByTagName('select')[0].value);
 					quantity = quantity + singleQuantity;
+					
 					price = price + singleQuantity*Number((cartListItems[i].getElementsByClassName('cd-cart__price')[0].innerText).replace('$', ''));
 				}
 			}
@@ -223,5 +272,5 @@
 			cartCountItems[0].innerText = quantity;
 			cartCountItems[1].innerText = quantity+1;
 		};
-  }
+  //}
 })();
