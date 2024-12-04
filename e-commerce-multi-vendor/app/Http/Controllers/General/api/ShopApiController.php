@@ -83,6 +83,7 @@ class ShopApiController extends Controller
             array_push($cart_temp_arr,$request->user_id);
             array_push($cart_temp_arr,$item->product_id);
             array_push($cart_temp_arr,$item->quantity);
+            array_push($cart_temp_arr,$product[0]->name);
             array_push($cart_temp_arr,$product[0]->price);
             array_push($cart_temp_arr,$product[0]->image);
             array_push($cart_arr,$cart_temp_arr);

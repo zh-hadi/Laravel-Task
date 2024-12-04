@@ -4,13 +4,28 @@
         background: #f8f9fa;
         padding: 15px;
     }
-
+    p{
+        font-size:14px !important;
+    }
+    .form-check-label{
+        font-size:14px !important;
+    }
+    .btn{
+        font-size:14px !important;
+        border-radius: 0 !important;
+    }
     .content {
         flex: 1;
         padding: 15px;
     }
     .cd-cart__details{
         padding-top:0 !important;
+    }
+    .cd-cart__details h3 {
+        font-weight: bold;
+        width: 100% !important;
+        font-size: 0.95833em;
+        font-size: calc(var(--text-sm)* 1.15);
     }
 
     @media (max-width: 768px) {
@@ -72,10 +87,10 @@
                     <img src="{{$product->image}}" class="card-img-top" alt="{{$product->name}}">
                     <div class="card-body">
                         <h5 class="card-title">{{$product->name}}</h5>
-                        <p class="card-text">BDT {{$product->price}}</p>
+                        <p class="card-text"><b>BDT {{$product->price}}</b></p>
                         <p class="card-text">Category: {{$product->c_name}}</p>
                         @csrf
-                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id='{{$product->id}}' data-userid='{{$user_id}}' data-csrf='{{csrf_token()}}'>Add to Cart</a>
+                        <a href="#" class="cd-add-to-cart js-cd-add-to-cart btn btn-primary" data-name="{{$product->name}}"  data-price="{{$product->price}}" data-pimage='{{$product->image}}' data-id='{{$product->id}}' data-userid='{{$user_id}}' data-csrf='{{csrf_token()}}'>Add to Cart</a>
                     </div>
                 </div>
             </div>
@@ -107,7 +122,7 @@
 			</div>
 
 			<footer class="cd-cart__footer">
-				<a href="#0" class="cd-cart__checkout">
+				<a href="{{url('shop-checkout')}}" class="cd-cart__checkout">
           <em>Checkout - BDT <span>0</span>
             <svg class="icon icon--sm" viewBox="0 0 24 24"><g fill="none" stroke="currentColor"><line stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="3" y1="12" x2="21" y2="12"/><polyline stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="15,6 21,12 15,18 "/></g>
             </svg>
