@@ -19,6 +19,34 @@
 		var cartIsEmpty = Util.hasClass(cart[0], 'cd-cart--empty');
 		//show cart
 		Util.removeClass(cart[0], 'cd-cart--empty');
+		 
+		async function fetchData() {
+			const response = await fetch('http://localhost:8000/api/shop/cartinfo?user_id=' + b_user_id);
+			if (!response.ok) {
+				throw new Error('Network response was not ok ' + response.statusText);
+			}
+			return response.json();
+		}
+		
+		// Save the async function result in a variable
+		let data;
+		fetchData()
+			.then(result => {
+				cart_data = result;
+				//console.log(cart_data[0][0]); // Log the data
+				//console.log(cart_data);
+				addProductManual("500","New Product 01","2001","1");
+				//update number of items 
+				updateCartCount(cartIsEmpty);
+				//update total price
+				updateCartTotal("500", true);
+			})
+		.catch(error => console.error('There was a problem with the fetch operation:', error));
+		
+		
+		//fetchData();
+			
+		//console.log(cart_data);
 		addProductManual("500","New Product 01","2001","1");
 		//update number of items 
 		updateCartCount(cartIsEmpty);
@@ -125,7 +153,7 @@
 			}
 		};
 
-		function addProductManual(price,name,productId,userid) {
+		function addProductManual(price,name,pimage,productId,userid) {
 			// this is just a product placeholder
 			// you should insert an item with the selected product info
 			// replace productId, productName, price and url with your real product info
@@ -135,7 +163,7 @@
 			// let pimage = target.getAttribute('data-pimage');
 			// let productId = target.getAttribute('data-id');
 			// let userid = target.getAttribute('data-userid');
-			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
 			cartList.insertAdjacentHTML('beforeend', productAdded);
 			//const csrfToken = target.getAttribute('data-csrf');
 			
@@ -153,7 +181,7 @@
 			let pimage = target.getAttribute('data-pimage');
 			let productId = target.getAttribute('data-id');
 			let userid = target.getAttribute('data-userid');
-			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
+			var productAdded = '<li class="cd-cart__product" data-productid="'+productId+'" data-userid="'+userid+'"><div class="cd-cart__details"><div class="cd-cart__image"><a href="#0"><img src="'+pimage+'" alt="placeholder"></a></div><h3 class="truncate"><a href="#0">ID: '+productId+'</a></h3><h3 class="truncate">Product Name: <a href="#0">'+name+'</a></h3><span class="cd-cart__price">'+price+'</span><div class="cd-cart__actions"><a href="#0" class="cd-cart__delete-item">Delete</a><div class="cd-cart__quantity"><label for="cd-product-'+ productId +'">Qty</label><span class="cd-cart__select"><select class="reset" id="cd-product-'+ productId +'" data-productid="'+productId+'" data-userid="'+userid+'" name="quantity"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option></select><svg class="icon" viewBox="0 0 12 12"><polyline fill="none" stroke="currentColor" points="2,4 6,8 10,4 "/></svg></span></div></div></div></li>';
 			cartList.insertAdjacentHTML('beforeend', productAdded);
 			const csrfToken = target.getAttribute('data-csrf');
 			fetch('http://localhost:8000/api/shop/cartsave', {

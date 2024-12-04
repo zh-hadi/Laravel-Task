@@ -9,6 +9,7 @@ use App\Http\Requests\Shop\CartSaveRequest;
 use App\Http\Requests\Shop\CartUpdateRequest;
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,13 +71,25 @@ class ShopApiController extends Controller
         $cart_item = CartItem::where('cart_id',$cart[0]->id)->get();
         $cart_arr = array();
         foreach($cart_item as $item){
+            $product = Product::where('id',$item->product_id)->get();
             $cart_temp_arr = array();
-            array_push($cart_temp_arr, $cart[0]->id);
-            array_push($cart_temp_arr, $request->user_id);
-            array_push($cart_temp_arr, $item->product_id);
-            array_push($cart_temp_arr, $item->quantity);
+            // $cart_temp_arr["cart_id"] = $cart[0]->id;
+            // $cart_temp_arr["user_id"] = $request->user_id;
+            // $cart_temp_arr["product_id"] = $item->product_id;
+            // $cart_temp_arr["quantity"] = $item->quantity;
+            // $cart_temp_arr["price"] = $product[0]->price;
+            // $cart_temp_arr["image"] = $product[0]->image;
+            array_push($cart_temp_arr,$cart[0]->id);
+            array_push($cart_temp_arr,$request->user_id);
+            array_push($cart_temp_arr,$item->product_id);
+            array_push($cart_temp_arr,$item->quantity);
+            array_push($cart_temp_arr,$product[0]->price);
+            array_push($cart_temp_arr,$product[0]->image);
             array_push($cart_arr,$cart_temp_arr);
+            //$cart_arr["cart_".$item->id] = $cart_temp_arr;
         }
+        //$msg = ['msg'=>'Cart Item Added'];
+        //return json_encode($cart_arr);
         return $cart_arr;
     }
 }

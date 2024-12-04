@@ -24,6 +24,9 @@
     }
 </style>
 <link rel="stylesheet" href="{{asset('cart/css/style.css')}}">
+<script>
+    var b_user_id = <?php echo $user_id; ?>;
+</script>
 @extends('layouts.bootstrap-layout')
 
 @section('title', 'Shop Page')
